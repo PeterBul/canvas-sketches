@@ -2,7 +2,7 @@ const canvasSketch = require('canvas-sketch');
 const math = require('canvas-sketch-util/math');
 const random = require('canvas-sketch-util/random');
 const color = require('canvas-sketch-util/color');
-const { Agent, CircularAgent } = require('./utils');
+const { Agent, CircularAgent, Arc } = require('./utils');
 
 const colors = ['#D34DF0', '#B55EF7', '#8960E0', '#685EF7', '#4F6DF5'];
 const getRandomColorFromPallette = () =>
@@ -44,7 +44,7 @@ const sketch = ({ context, width, height }) => {
   const h = height * 0.1;
   let x, y;
 
-  const num = 100;
+  const num = 20;
   const radius = width * 0.3;
 
   const rects = [];
@@ -64,23 +64,32 @@ const sketch = ({ context, width, height }) => {
 
     const scaleX = random.range(0.1, 0.2);
     const scaleY = random.range(0.9, 2);
-    rects.push(
-      new Rect(x, y, -w * 0.5, random.range(0, -h * 1), angle, scaleX, scaleY)
-    );
+    // rects.push(
+    //   new Rect(x, y, -w * 0.5, random.range(0, -h * 1), angle, scaleX, scaleY)
+    // );
 
-    agents.push(new CircularAgent(cx, cy, radius, angle));
-
-    arcs.push(
-      new Arc(
+    agents.push(
+      new CircularAgent(
+        cx,
+        cy,
         radius * random.range(0.1, 1.3),
         angle,
-        random.range(10, 40),
-        slice * random.range(1, -8),
-        slice * random.range(1, 5),
-        random.range(-0.01, 0.01),
-        random.range(0.00005, 0.0001)
+        0.001,
+        true
       )
     );
+
+    // arcs.push(
+    //   new Arc(
+    //     radius * random.range(0.1, 1.3),
+    //     angle,
+    //     random.range(10, 40),
+    //     slice * random.range(1, -8),
+    //     slice * random.range(1, 5),
+    //     random.range(-0.01, 0.01),
+    //     random.range(0.00005, 0.0001)
+    //   )
+    // );
   }
   // const strokeStyle = getPalletteGradients(context);
 
@@ -97,8 +106,8 @@ const sketch = ({ context, width, height }) => {
       x = cx + radius * Math.sin(angle);
       y = cy + radius * Math.cos(angle);
 
-      const rect = rects[i];
-      rect.draw(context, w, h);
+      // const rect = rects[i];
+      // rect.draw(context, w, h);
 
       const agent = agents[i];
       if (agent) {
@@ -106,10 +115,10 @@ const sketch = ({ context, width, height }) => {
         agent.update();
       }
 
-      const arc = arcs[i];
-      arc.draw(context, cx, cy, radius);
-      arc.turn();
-      arc.update();
+      // const arc = arcs[i];
+      // arc.draw(context, cx, cy, radius);
+      // arc.turn();
+      // arc.update();
     }
   };
 };
@@ -144,53 +153,5 @@ class Point {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-  }
-}
-
-class Arc {
-  // Arcs
-  constructor(radius, angle, width, startAngle, endAngle, vel, acc = 0) {
-    this.radius = radius;
-    this.angle = angle;
-    this.width = width;
-    this.startAngle = startAngle;
-    this.endAngle = endAngle;
-    this.vel = vel;
-    this.acc = acc;
-  }
-
-  draw(context, cx, cy, r) {
-    context.save();
-    context.strokeStyle = color.parse(
-      `hsla(${math.mapRange(
-        this.radius * Math.cos(this.startAngle),
-        -r,
-        r,
-        200,
-        300
-      )}, 50, 50, 1)`
-    ).hex;
-    context.translate(cx, cy);
-    context.rotate(-this.angle);
-
-    context.lineWidth = this.width;
-
-    context.beginPath();
-
-    context.arc(0, 0, this.radius, this.startAngle, this.endAngle);
-    context.stroke();
-    context.restore();
-  }
-
-  update() {
-    this.startAngle += this.vel;
-    this.endAngle += this.vel;
-    this.vel += this.acc;
-  }
-
-  turn() {
-    if (Math.abs(this.vel) > 0.02) {
-      this.acc *= -1;
-    }
   }
 }
