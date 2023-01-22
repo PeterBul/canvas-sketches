@@ -2,7 +2,7 @@ const canvasSketch = require('canvas-sketch');
 const math = require('canvas-sketch-util/math');
 const random = require('canvas-sketch-util/random');
 const color = require('canvas-sketch-util/color');
-const { Agent, CircularAgent, Arc } = require('./utils');
+const { Agent, CircularAgent, Arc, Vector } = require('./utils');
 
 const colors = ['#D34DF0', '#B55EF7', '#8960E0', '#685EF7', '#4F6DF5'];
 const getRandomColorFromPallette = () =>
@@ -44,8 +44,8 @@ const sketch = ({ context, width, height }) => {
   const h = height * 0.1;
   let x, y;
 
-  const num = 20;
-  const radius = width * 0.3;
+  const num = 5;
+  const radius = width * 0.42;
 
   const rects = [];
   const arcs = [];
@@ -67,29 +67,26 @@ const sketch = ({ context, width, height }) => {
     // rects.push(
     //   new Rect(x, y, -w * 0.5, random.range(0, -h * 1), angle, scaleX, scaleY)
     // );
+    const r = radius - i * (radius / num);
+
+    const vel = (Math.random() < 0.5 ? 1 : -1) * random.range(0.005, 0.009);
+    const offset = new Vector(70 * i, 0);
 
     agents.push(
       new CircularAgent(
         cx,
         cy,
-        radius * random.range(0.1, 1.3),
+        // radius * random.range(0.1, 1.3),
+        r,
         angle,
-        0.001,
-        true
+        vel,
+        true,
+        undefined,
+        offset
       )
     );
 
-    // arcs.push(
-    //   new Arc(
-    //     radius * random.range(0.1, 1.3),
-    //     angle,
-    //     random.range(10, 40),
-    //     slice * random.range(1, -8),
-    //     slice * random.range(1, 5),
-    //     random.range(-0.01, 0.01),
-    //     random.range(0.00005, 0.0001)
-    //   )
-    // );
+    arcs.push(new Arc(r, 0, 5, 0, 2 * Math.PI, 0, undefined, offset));
   }
   // const strokeStyle = getPalletteGradients(context);
 
@@ -108,17 +105,14 @@ const sketch = ({ context, width, height }) => {
 
       // const rect = rects[i];
       // rect.draw(context, w, h);
+      const arc = arcs[i];
+      arc.draw(context, cx, cy, radius);
 
       const agent = agents[i];
       if (agent) {
         agent.draw(context);
         agent.update();
       }
-
-      // const arc = arcs[i];
-      // arc.draw(context, cx, cy, radius);
-      // arc.turn();
-      // arc.update();
     }
   };
 };

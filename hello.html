@@ -1,11 +1,19 @@
 <html>
+  <head>
+    <link rel="stylesheet" href="./index.css" />
+    <style>
+      body {
+        background-color: #282c34;
+      }
+    </style>
+  </head>
   <body>
     <canvas width="600" height="600"></canvas>
     <script>
-      let canvas = document.querySelector("canvas");
-      let context = canvas.getContext("2d");
+      let canvas = document.querySelector('canvas');
+      let context = canvas.getContext('2d');
 
-      context.fillStyle = "blue";
+      context.fillStyle = 'blue';
       //   context.fillRect(100, 100, 400, 400);
 
       context.lineWidth = 4;
@@ -20,7 +28,7 @@
       let year = 2042;
       let nextYear = year + 1;
 
-      let dinner = "pasta";
+      let dinner = 'pasta';
       let sentence = `Tonight, dinner will be ${dinner}`;
     </script>
   </body>

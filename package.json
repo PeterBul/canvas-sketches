@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "colormap": "^2.3.2",
+    "riso-colors": "^1.0.1"
+  }
+}

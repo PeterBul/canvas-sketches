@@ -1,8 +1,18 @@
 import { color, math } from 'canvas-sketch-util';
+import { Vector } from './Vector';
 
 export class Arc {
   // Arcs
-  constructor(radius, angle, width, startAngle, endAngle, vel, acc = 0) {
+  constructor(
+    radius,
+    angle,
+    width,
+    startAngle,
+    endAngle,
+    vel,
+    acc = 0,
+    offset = new Vector(0, 0)
+  ) {
     this.radius = radius;
     this.angle = angle;
     this.width = width;
@@ -10,6 +20,7 @@ export class Arc {
     this.endAngle = endAngle;
     this.vel = vel;
     this.acc = acc;
+    this.offset = offset;
   }
 
   draw(context, cx, cy, r) {
@@ -24,6 +35,7 @@ export class Arc {
       )}, 50, 50, 1)`
     ).hex;
     context.translate(cx, cy);
+    context.translate(this.offset.x, this.offset.y);
     context.rotate(-this.angle);
 
     context.lineWidth = this.width;
