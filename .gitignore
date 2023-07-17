@@ -1,0 +1,6 @@
+node_modules/
+package-lock.json
+sketches/output/
+sketches/audio/
+sketches/audio_hidden/
+server/db.json

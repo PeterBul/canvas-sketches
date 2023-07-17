@@ -105,6 +105,7 @@ const onMouseMove = (e) => {
 };
 
 const onMouseUp = () => {
+  console.log(points);
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('mouseup', onMouseUp);
 };

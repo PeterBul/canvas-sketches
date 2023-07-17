@@ -30,7 +30,7 @@ const sketch = ({ width, height }) => {
   let amplitude = 90;
 
   const colors = colormap({
-    colormap: 'salinity',
+    colormap: 'magma',
     nshades: amplitude,
   });
 
@@ -92,8 +92,8 @@ const sketch = ({ width, height }) => {
         // else context.quadraticCurveTo(curr.x, curr.y, mx, my);
         context.quadraticCurveTo(curr.x, curr.y, mx, my);
         context.stroke();
-        lastX = mx - (c / cols) * 250;
-        lastY = my - (r / rows) * 250;
+        lastX = mx - (c / cols) * 25;
+        lastY = my - (r / rows) * 25;
       }
     }
 

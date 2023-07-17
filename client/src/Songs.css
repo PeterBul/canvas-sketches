@@ -1,0 +1,12 @@
+.songs-table {
+  width: 80vw;
+  text-align: left;
+}
+
+.songs-table > td {
+  padding: 0px 10px;
+}
+
+.songs-table > th {
+  padding: 0px 10px;
+}
